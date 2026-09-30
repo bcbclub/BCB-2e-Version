@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-white text-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BCB. - Information en continu et grands reportages</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bcbYellow: '#FFE600',
+                        bcbBlue: '#2563EB',
+                        bcbDark: '#111111',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col antialiased selection:bg-bcbYellow selection:text-black">
+
+    <div class="flex min-h-screen bg-white">
+
+        <!-- Mobile Header Navigation -->
+        <div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button id="mobileMenuBtn" class="p-1 text-gray-800 hover:text-black focus:outline-none">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <a href="#" class="text-3xl font-black tracking-tighter text-black flex items-center gap-0.5">
+                    BCB<span class="inline-block w-2.5 h-2.5 bg-bcbYellow rounded-full ml-0.5"></span>
+                </a>
+            </div>
+            <button id="openSearchMobile" class="p-2 text-gray-700 hover:bg-gray-100 rounded-full">
+                <i data-lucide="search" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <aside id="sidebar" class="fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-white border-r border-gray-200 flex flex-col justify-between transition-transform duration-300 -translate-x-full lg:translate-x-0 shrink-0 custom-scrollbar overflow-y-auto">
+            <div class="p-5">
+                <!-- BCB Logo -->
+                <div class="flex items-center justify-between mb-6 pt-1">
+                    <a href="#" onclick="filterCategory('all')" class="text-4xl font-black tracking-tighter text-black flex items-center">
+                        BCB<span class="text-bcbYellow text-5xl leading-none">.</span>
+                    </a>
+                    <button id="closeMobileMenu" class="lg:hidden p-1 text-gray-500 hover:text-black">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Main Categories Section -->
+                <nav class="space-y-1 mb-6 text-sm font-semibold">
+                    <a href="#" onclick="filterCategory('Newsletter')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="mail" class="w-4 h-4 text-gray-700"></i> Newsletter
+                    </a>
+                    <a href="#" onclick="filterCategory('France')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="flag" class="w-4 h-4 text-gray-700"></i> France
+                    </a>
+                    <a href="#" onclick="filterCategory('International')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="globe" class="w-4 h-4 text-gray-700"></i> International
+                    </a>
+                    <a href="#" onclick="filterCategory('Environnement')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="leaf" class="w-4 h-4 text-gray-700"></i> Environnement
+                    </a>
+                    <a href="#" onclick="filterCategory('Technologie')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="cpu" class="w-4 h-4 text-gray-700"></i> Technologie
+                    </a>
+                    <a href="#" onclick="filterCategory('Culture')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="ticket" class="w-4 h-4 text-gray-700"></i> Culture
+                    </a>
+                    <a href="#" onclick="filterCategory('Santé')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="activity" class="w-4 h-4 text-gray-700"></i> Santé
+                    </a>
+                    <a href="#" onclick="filterCategory('Économie')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-gray-700"></i> Économie
+                    </a>
+                    <a href="#" onclick="filterCategory('Sport')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="trophy" class="w-4 h-4 text-gray-700"></i> Sport
+                    </a>
+                </nav>
+
+                <hr class="border-gray-200 my-4" />
+
+                <!-- Formats Section -->
+                <nav class="space-y-1 mb-6 text-sm font-semibold">
+                    <a href="#" onclick="filterType('Article')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="file-text" class="w-4 h-4 text-gray-700"></i> Articles
+                    </a>
+                    <a href="#" onclick="filterType('Documentaire')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="video" class="w-4 h-4 text-gray-700"></i> Documentaires
+                    </a>
+                    <a href="#" onclick="filterType('Podcast')" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="headphones" class="w-4 h-4 text-gray-700"></i> Podcast
+                    </a>
+                    <a href="#" onclick="openContestModal()" class="nav-link flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors">
+                        <i data-lucide="gift" class="w-4 h-4 text-gray-700"></i> Jeux concours
+                    </a>
+                    <button onclick="toggleSearchModal()" class="w-full flex items-center gap-3 px-2 py-1.5 text-gray-900 hover:bg-gray-100 rounded-md transition-colors text-left">
+                        <i data-lucide="search" class="w-4 h-4 text-gray-700"></i> Rechercher
+                    </button>
+                </nav>
+
+                <hr class="border-gray-200 my-4" />
+
+                <!-- Secondary Links -->
+                <div class="space-y-2 text-xs font-medium text-gray-600 mb-6">
+                    <a href="#" onclick="alertModal('Demande de partenariat annonceur transmise !')" class="flex items-center gap-1 hover:underline">
+                        Annonceurs <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                    </a>
+                    <a href="#" onclick="alertModal('Rejoignez l\'équipe BCB. Envoyez votre CV à recrutements@bcb.fr')" class="flex items-center gap-1 hover:underline">
+                        Nous rejoindre <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Edition Selector -->
+            <div class="p-4 border-t border-gray-200 text-xs font-semibold text-gray-800">
+                <button class="flex items-center justify-between w-full hover:bg-gray-50 p-2 rounded-md">
+                    <span>Édition française</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-gray-500"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile menu -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+        <main class="flex-1 min-w-0 pt-16 lg:pt-0 p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
+
+            <!-- Active Filter Bar Indicator -->
+            <div id="filterBanner" class="hidden mb-6 bg-gray-100 p-3 rounded-xl flex items-center justify-between text-sm font-medium">
+                <span>Filtre actif : <strong id="filterName" class="text-black"></strong></span>
+                <button onclick="resetFilters()" class="text-xs bg-black text-white px-3 py-1 rounded-full hover:bg-gray-800">Réinitialiser</button>
+            </div>
+
+            <!-- SECTION "À LA UNE" -->
+            <section id="aLaUneSection" class="mb-12 relative">
+                <!-- Yellow Header Pill -->
+                <div class="flex justify-center -mb-3.5 relative z-10">
+                    <span class="bg-bcbYellow text-black text-xs font-extrabold px-4 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                        À la une
+                    </span>
+                </div>
+
+                <!-- Grid Layout corresponding to original image design -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 pt-2">
+
+                    <!-- HERO MAIN CARD (Left Column - 5 cols) -->
+                    <div class="lg:col-span-5 border border-gray-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col cursor-pointer group" onclick="openArticle(1)">
+                        <div class="relative overflow-hidden aspect-[16/10] bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=800&q=80" alt="Feu de Gironde" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-5 flex flex-col justify-between flex-1">
+                            <div>
+                                <h2 class="text-xl md:text-2xl font-black text-black leading-snug tracking-tight mb-3 group-hover:text-blue-600 transition-colors">
+                                    Le feu de Gironde officiellement "éteint"
+                                </h2>
+                                <p class="text-gray-600 text-sm leading-relaxed font-normal">
+                                    Deux mois après, le mégafeu de Saumos, qui a parcouru 42.000 hectares cet été en Gironde, a été déclaré "éteint" lundi par les autorités.
+                                </p>
+                            </div>
+                            <div class="mt-4 flex items-center gap-2 text-xs text-gray-400 font-medium pt-3 border-t border-gray-100">
+                                <span class="text-black font-bold">Environnement</span> • <span>29 sept. 2026</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CENTER COLUMN (2 stacked cards - 4 cols) -->
+                    <div class="lg:col-span-4 flex flex-col gap-5">
+                        <!-- Top Center Card -->
+                        <div class="border border-gray-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col flex-1 cursor-pointer group p-3" onclick="openArticle(2)">
+                            <div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-gray-200 mb-3">
+                                <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80" alt="École primaire" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            </div>
+                            <h3 class="font-extrabold text-sm md:text-base text-black leading-snug group-hover:text-blue-600 transition-colors">
+                                Le premier syndicat des écoles primaires s'attend à 40% d'enseignants en grève ce mardi 29 septembre 2026
+                            </h3>
+                        </div>
+
+                        <!-- Bottom Center Card -->
+                        <div class="border border-gray-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col flex-1 cursor-pointer group p-3" onclick="openArticle(3)">
+                            <div class="relative aspect-[16/9] rounded-lg overflow-hidden bg-gray-200 mb-3">
+                                <img src="https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=600&q=80" alt="Police nationale" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            </div>
+                            <h3 class="font-extrabold text-sm md:text-base text-black leading-snug group-hover:text-blue-600 transition-colors">
+                                Un homme de 19 ans tué à coups de couteau dans le département de la Loire
+                            </h3>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT COLUMN (1 Tall Card - 3 cols) -->
+                    <div class="lg:col-span-3 border border-gray-300 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow flex flex-col cursor-pointer group" onclick="openArticle(4)">
+                        <div class="relative overflow-hidden aspect-[16/10] bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=600&q=80" alt="Rail SNCF" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                        <div class="p-4 flex flex-col justify-between flex-1">
+                            <div>
+                                <h3 class="font-extrabold text-base text-black leading-snug mb-3 group-hover:text-blue-600 transition-colors">
+                                    Trois personnes interpellées dans l'Aisne pour vol de câbles SNCF
+                                </h3>
+                                <p class="text-gray-600 text-xs leading-relaxed font-normal">
+                                    Les suspects, âgés d'une vingtaine d'années, sont soupçonnés d'avoir dérobé 600 mètres de câbles à la SNCF à Frières-Faillouël (Aisne), dimanche en début d'après-midi, pour un montant estimé à 100.000 euros.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-2 text-xs text-gray-400 font-medium">
+                                <span class="text-black font-bold">Faits divers</span> • <span>29 sept. 2026</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="mt-10">
+                <!-- Section Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl md:text-2xl font-black text-black tracking-tight flex items-center gap-2">
+                        Les articles de la rédaction <i data-lucide="chevron-right" class="w-6 h-6"></i>
+                    </h2>
+                    <button onclick="resetFilters()" class="text-xs font-extrabold border border-gray-300 rounded-full px-4 py-1.5 hover:bg-gray-100 transition">
+                        Tout voir
+                    </button>
+                </div>
+
+                <!-- Articles Grid -->
+                <div id="articlesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Items injected by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ARTICLE READER MODAL -->
+    <div id="articleModal" class="fixed inset-0 z-50 bg-black/70 hidden flex items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative custom-scrollbar my-auto">
+            <button onclick="closeArticleModal()" class="sticky top-4 right-4 ml-auto bg-black/60 hover:bg-black text-white p-2 rounded-full transition z-20 flex items-center justify-center">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div id="articleModalContent" class="p-6 md:p-10 -mt-10">
+                <!-- Dynamic Content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH MODAL -->
+    <div id="searchModal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-start justify-center pt-20 p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-bold">Recherche BCB</h3>
+                <button onclick="toggleSearchModal()" class="text-gray-500 hover:text-black">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="relative mb-4">
+                <input type="text" id="searchInput" placeholder="Rechercher un sujet, un mot-clé, une actualité..." class="w-full pl-10 pr-4 py-3 bg-gray-100 border border-transparent rounded-xl focus:bg-white focus:border-black outline-none text-sm font-medium transition" oninput="handleSearch(this.value)" />
+                <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-3.5"></i>
+            </div>
+            <div id="searchResults" class="max-h-60 overflow-y-auto space-y-2">
+                <p class="text-xs text-gray-400 text-center py-4">Saisissez un mot-clé pour lancer la recherche...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALERT / MESSAGE MODAL -->
+    <div id="infoModal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center shadow-xl">
+            <div class="w-12 h-12 bg-bcbYellow rounded-full flex items-center justify-center mx-auto mb-4 text-black font-black text-xl">
+                !
+            </div>
+            <p id="infoModalText" class="text-gray-800 font-semibold mb-6"></p>
+            <button onclick="closeInfoModal()" class="bg-black text-white px-6 py-2.5 rounded-full font-bold text-sm hover:bg-gray-800 transition">
+                Fermer
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const articles = [
+            {
+                id: 1,
+                title: 'Le feu de Gironde officiellement "éteint"',
+                category: 'Environnement',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=800&q=80',
+                summary: 'Deux mois après, le mégafeu de Saumos, qui a parcouru 42.000 hectares cet été en Gironde, a été déclaré "éteint" lundi par les autorités.',
+                content: `
+                    <p class="mb-4">Après plus de deux mois de mobilisation acharnée des sapeurs-pompiers et des équipes forestières, le sinistre historique de Saumos en Gironde est désormais considéré comme totalement maîtrisé et éteint.</p>
+                    <p class="mb-4">Les précipitations récents associées à la baisse des températures saisonnières ont permis d'éteindre les dernières fumerolles en profondeur. Le bilan final fait état de plus de 42 000 hectares de forêt détruits, mobilisant jusqu'à 2 000 pompiers venus de toute la France et d'Europe.</p>
+                    <p class="mb-4">La préfecture souligne que le travail de reforestation et de sécurisation des massifs forestiers va débuter dans les plus brefs délais.</p>
+                `,
+                date: '29 sept. 2026'
+            },
+            {
+                id: 2,
+                title: 'Le premier syndicat des écoles primaires s\'attend à 40% d\'enseignants en grève ce mardi 29 septembre 2026',
+                category: 'France',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80',
+                summary: 'Un mouvement de contestation d\'ampleur nationale touche les établissements scolaires primaires ce mardi.',
+                content: `
+                    <p class="mb-4">Le Snuipp-FSU, principal syndicat du premier degré, prévoit une mobilisation massive avec près de 40% de grévistes dans les écoles maternelles et élémentaires.</p>
+                    <p class="mb-4">Les revendications portent principalement sur le pouvoir d'achat, les conditions de travail dégradées ainsi que le manque d'effectifs pour le remplacement des enseignants absents.</p>
+                `,
+                date: '29 sept. 2026'
+            },
+            {
+                id: 3,
+                title: 'Un homme de 19 ans tué à coups de couteau dans le département de la Loire',
+                category: 'France',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?auto=format&fit=crop&w=600&q=80',
+                summary: 'Une enquête pour homicide volontaire a été ouverte après l\'agression mortelle survenue tard dans la nuit.',
+                content: `
+                    <p class="mb-4">Un jeune homme âgé de 19 ans a succombé à ses blessures cette nuit dans la Loire à la suite d'une altcation armée.</p>
+                    <p class="mb-4">Les services de police judiciaire sont saisis du dossier afin de déterminer le mobile exact du crime et retrouver le ou les auteurs en fuite.</p>
+                `,
+                date: '29 sept. 2026'
+            },
+            {
+                id: 4,
+                title: 'Trois personnes interpellées dans l\'Aisne pour vol de câbles SNCF',
+                category: 'France',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=600&q=80',
+                summary: 'Les suspects sont soupçonnés d\'avoir dérobé 600 mètres de câbles à la SNCF à Frières-Faillouël.',
+                content: `
+                    <p class="mb-4">Trois individus âgés d'une vingtaine d'années ont été arrêtés par les forces de l'ordre dimanche après-midi.</p>
+                    <p class="mb-4">Le préjudice total est estimé à plus de 100.000 euros pour la SNCF, provoquant également des retards sur le trafic ferroviaire régional.</p>
+                `,
+                date: '29 sept. 2026'
+            },
+            {
+                id: 5,
+                title: 'Le sport amateur a enfin sa vitrine',
+                category: 'Sport',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=600&q=80',
+                summary: 'Une nouvelle plateforme numérique dédiée à la mise en lumière des clubs et athlètes locaux vient de voir le jour.',
+                content: `
+                    <p class="mb-4">Grâce à une initiative conjointe des fédérations et du ministère des Sports, le sport amateur bénéficie désormais d'un média complet diffusant compétitions et portraits.</p>
+                    <p class="mb-4">L'objectif est d'accroître la visibilité des petites structures et de favoriser l'engagement associatif à travers la France.</p>
+                `,
+                date: '29 sept. 2026'
+            },
+            {
+                id: 6,
+                title: 'L\'exécution d\'une femme, cas rare aux États-Unis, suspendue in extremis',
+                category: 'International',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=600&q=80',
+                summary: 'Les avocats ont obtenu un sursis temporaire au terme d\'un recours judiciaire de dernière minute.',
+                content: `
+                    <p class="mb-4">Aux États-Unis, l'exécution d'une condamnée à mort a été suspendue de justesse par une cour d'appel fédérale.</p>
+                    <p class="mb-4">Ce sursis fait suite à de nouvelles révélations concernant l'impartialité des procédures judiciaires initiales.</p>
+                `,
+                date: '28 sept. 2026'
+            },
+            {
+                id: 7,
+                title: 'Christa Pike doit être exécutée ce mercredi aux États-Unis, une issue incertaine',
+                category: 'International',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=600&q=80',
+                summary: 'Condamnée depuis plus de vingt-cinq ans, son cas suscite un débat intense outre-Atlantique.',
+                content: `
+                    <p class="mb-4">L'affaire Christa Pike continue de faire couler beaucoup d'encre alors que la date prévue de son exécution approche.</p>
+                    <p class="mb-4">Des organisations de défense des droits humains multiplient les appels à la clémence auprès du gouverneur d'État.</p>
+                `,
+                date: '28 sept. 2026'
+            },
+            {
+                id: 8,
+                title: 'Affaire Bardella : les réactions politiques',
+                category: 'Économie',
+                type: 'Article',
+                image: 'https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=600&q=80',
+                summary: 'Les récentes déclarations provoquent une cascade de commentaires au sein de la classe politique.',
+                content: `
+                    <p class="mb-4">Les répercussions politiques se poursuivent au lendemain des déclarations publiques sur la gouvernance politique et économique.</p>
+                    <p class="mb-4">Plusieurs chefs de parti de l'opposition et de la majorité ont fermement exprimé leurs positions respectives.</p>
+                `,
+                date: '28 sept. 2026'
+            },
+            {
+                id: 9,
+                title: 'Les processeurs quantiques de nouvelle génération franchissent un cap',
+                category: 'Technologie',
+                type: 'Documentaire',
+                image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+                summary: 'Découvrez comment les chercheurs repoussent la limite du calcul informatique en 2026.',
+                content: `
+                    <p class="mb-4">Un pas décisif dans le domaine de l'informatique quantique a été annoncé par un laboratoire européen à Grenoble.</p>
+                    <p class="mb-4">Les nouveaux processeurs atteignent un taux d'erreur historiquement bas, permettant des applications directes en médecine et en modélisation du climat.</p>
+                `,
+                date: '27 sept. 2026'
+            }
+        ];
+
+        function renderArticles(itemsToRender) {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = '';
+
+            if (itemsToRender.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-gray-500 font-medium">
+                        Aucun article ne correspond à votre recherche.
+                    </div>
+                `;
+                return;
+            }
+
+            itemsToRender.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'group cursor-pointer flex flex-col sm:flex-row items-start gap-4 p-2 rounded-xl hover:bg-gray-50 transition';
+                card.onclick = () => openArticle(article.id);
+
+                card.innerHTML = `
+                    <div class="w-full sm:w-28 h-28 shrink-0 rounded-xl overflow-hidden bg-gray-200 relative">
+                        <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <div class="flex flex-col justify-between h-full py-0.5">
+                        <div class="mb-2">
+                            <span class="inline-block bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider mb-1.5">
+                                ${article.type}
+                            </span>
+                            <h4 class="font-extrabold text-sm text-black leading-snug group-hover:text-blue-600 transition-colors line-clamp-3">
+                                ${article.title}
+                            </h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 font-medium">
+                            ${article.category} • ${article.date}
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function filterCategory(category) {
+            closeMobileSidebar();
+            const banner = document.getElementById('filterBanner');
+            const filterName = document.getElementById('filterName');
+            const aLaUneSection = document.getElementById('aLaUneSection');
+
+            if (category === 'all') {
+                resetFilters();
+                return;
+            }
+
+            banner.classList.remove('hidden');
+            filterName.textContent = category;
+            aLaUneSection.classList.add('hidden');
+
+            const filtered = articles.filter(a => a.category.toLowerCase() === category.toLowerCase());
+            renderArticles(filtered);
+        }
+
+        function filterType(type) {
+            closeMobileSidebar();
+            const banner = document.getElementById('filterBanner');
+            const filterName = document.getElementById('filterName');
+            const aLaUneSection = document.getElementById('aLaUneSection');
+
+            banner.classList.remove('hidden');
+            filterName.textContent = type + 's';
+            aLaUneSection.classList.add('hidden');
+
+            const filtered = articles.filter(a => a.type.toLowerCase() === type.toLowerCase());
+            renderArticles(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('filterBanner').classList.add('hidden');
+            document.getElementById('aLaUneSection').classList.remove('hidden');
+            renderArticles(articles);
+        }
+
+        function openArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (!article) return;
+
+            const modalContent = document.getElementById('articleModalContent');
+            modalContent.innerHTML = `
+                <div class="mb-4">
+                    <span class="bg-bcbYellow text-black text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">
+                        ${article.category}
+                    </span>
+                    <span class="text-xs text-gray-400 ml-2 font-medium">${article.date}</span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-black text-black leading-tight tracking-tight mb-4">
+                    ${article.title}
+                </h1>
+                <div class="rounded-xl overflow-hidden aspect-[16/9] mb-6 bg-gray-100 shadow-inner">
+                    <img src="${article.image}" alt="${article.title}" class="w-full h-full object-cover" />
+                </div>
+                <div class="prose max-w-none text-gray-800 font-normal leading-relaxed text-base">
+                    ${article.content}
+                </div>
+                <div class="mt-8 pt-4 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500 font-semibold">
+                    <span>Partager cet article BCB</span>
+                    <div class="flex gap-2">
+                        <button onclick="alertModal('Lien copié dans le presse-papier !')" class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 text-black">
+                            <i data-lucide="share-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('articleModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function toggleSearchModal() {
+            const modal = document.getElementById('searchModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('searchInput').focus();
+            }
+        }
+
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('searchResults');
+            const q = query.toLowerCase().trim();
+
+            if (!q) {
+                resultsContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">Saisissez un mot-clé pour lancer la recherche...</p>';
+                return;
+            }
+
+            const matches = articles.filter(a => 
+                a.title.toLowerCase().includes(q) || 
+                a.category.toLowerCase().includes(q) ||
+                a.summary.toLowerCase().includes(q)
+            );
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = '<p class="text-xs text-gray-500 text-center py-4">Aucun résultat trouvé.</p>';
+                return;
+            }
+
+            resultsContainer.innerHTML = matches.map(a => `
+                <div onclick="openArticle(${a.id}); toggleSearchModal();" class="p-3 hover:bg-gray-100 rounded-xl cursor-pointer transition flex items-center gap-3">
+                    <img src="${a.image}" class="w-12 h-12 rounded-lg object-cover" />
+                    <div>
+                        <h5 class="text-xs font-bold text-black line-clamp-1">${a.title}</h5>
+                        <p class="text-[10px] text-gray-500 font-medium">${a.category} • ${a.type}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function alertModal(message) {
+            document.getElementById('infoModalText').textContent = message;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.add('hidden');
+        }
+
+        function openContestModal() {
+            alertModal('Grand jeu concours BCB ! Tentez de gagner un équipement complet de reportage. Inscrivez-vous sur le site !');
+        }
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const openSearchMobile = document.getElementById('openSearchMobile');
+
+        function openMobileSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            sidebarOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileSidebar);
+        if (closeMobileMenu) closeMobileMenu.addEventListener('click', closeMobileSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeMobileSidebar);
+        if (openSearchMobile) openSearchMobile.addEventListener('click', toggleSearchModal);
+
+        window.onload = function() {
+            renderArticles(articles);
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
